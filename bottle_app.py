@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+#!/usr/bin/python3.6
 
 from bottle import default_app, route, view, request, static_file, template
 #import urllib.request
