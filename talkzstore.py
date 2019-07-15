@@ -1,15 +1,41 @@
 
+import os
+import pickle
+
 talkz = None
+talkz_file = ''
+tconf = None
+talkz_conf = ''
 
 def init_talkz():
     global talkz
-    tf = open('talkz.tdb', 'r', encoding='utf-8')
+    global talkz_file
+    global tconf
+    global talkz_conf
+
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    talkz_file = os.path.join(THIS_FOLDER, 'talkz.tdb')
+    tf = open(talkz_file, 'r', encoding='utf-8')
     talkz = tf.readlines()
     tf.close()
-    print(len(talkz))
+    talkz = [t.replace('\n', '') for t in talkz]
+
+    talkz_conf = os.path.join(THIS_FOLDER, 'talkz.cfg')
+    tconf = pickle.load(open(talkz_conf, 'rb'))
+    print(tconf)
 
 def save_talkz():
     global talkz
-    tf = open('talkz.tdb', 'w')
-    tf.writelines(talkz)
+    global talkz_file
+    tlkz = [t + '\n' for t in talkz]
+    tf = open(talkz_file, 'w')
+    tf.writelines(tlkz)
     tf.close()
+    print('Talkz.db saved')
+
+def read_conf(key):
+    global tconf
+    try:
+        return tconf[key]
+    except:
+        return 0
