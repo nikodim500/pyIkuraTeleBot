@@ -32,7 +32,7 @@ logging.basicConfig(filename = log_file, format='%(asctime)s - %(name)s - %(leve
 logger = logging.getLogger(__name__)
 
 tsr.init()
-#users.init()
+users.init()
 
 logger.debug('----------------==============>>>>>>>>>>>>>> STARTED <<<<<<<<<<<<<<<=============---------------------')
 

@@ -8,7 +8,7 @@ import datetime as dt
 userz = None
 userz_file = 'no file'
 
-def init_userz():
+def init():
     global userz
     global userz_file
     userz = []
