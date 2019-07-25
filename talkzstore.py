@@ -14,13 +14,13 @@ def init_talkz():
     global talkz_conf
 
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    talkz_file = os.path.join(THIS_FOLDER, 'talkz.tdb')
+    talkz_file = os.path.join(THIS_FOLDER, '-dbs', 'talkz.tdb')
     tf = open(talkz_file, 'r', encoding='utf-8')
     talkz = tf.readlines()
     tf.close()
     talkz = [t.replace('\n', '') for t in talkz]
 
-    talkz_conf = os.path.join(THIS_FOLDER, 'talkz.cfg')
+    talkz_conf = os.path.join(THIS_FOLDER, '-dbs', 'talkz.cfg')
     tconf = pickle.load(open(talkz_conf, 'rb'))
     print(tconf)
 

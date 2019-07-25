@@ -4,7 +4,7 @@ from bottle import default_app, route, view, request, static_file, template
 #import urllib.request
 import talkzsearch as tsr
 import locationstore as locz
-#import users
+import users
 import telegram
 from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup
 import datetime as dt
@@ -23,7 +23,7 @@ bot_aliases = ['Ikura-san', 'Ikura', 'ikura', 'Икура-сан', 'Икура',
 mAdd = False
 command_message = None
 this_path = os.path.dirname(os.path.abspath(__file__))
-log_file = os.path.join(this_path, __name__ + '.log')
+log_file = os.path.join(this_path, '-logs', __name__ + '.log')
 
 # Enable logging
 logging.basicConfig(filename = log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -77,8 +77,7 @@ def botHook():
 
         if update.message.text == '/listusers':
             command_message = update.message
-            user_type = users.get_utype_by_id(update.message.from_user.id)
-            if not (user_type == 'O'):
+            if not users.user_is(update.message.from_user.id, 'O'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'Иди нухай, коп')
                 return 'Access denied'
             bot.sendMessage(chat_id = update.message.chat_id, text = users.list_userz())
@@ -87,37 +86,35 @@ def botHook():
         if isinstance(update.message.text, str):
             if update.message.text.split()[0] == '/makeowner':
                 user_name = update.message.text.split()[1]
-                user_type = users.get_utype_by_id(update.message.from_user.id)
                 if not (update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп. ты непапа')
                     return 'Access denied'
-                if not users.check_user_by_name(user_name):
+                if users.change_utype(user_name, 'O'):
+                    bot.sendMessage(chat_id=update.message.chat_id, text='зделол')
+                    return 'OK'
+                else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
-                users.change_utype(user_name, 'O')
-                bot.sendMessage(chat_id = update.message.chat_id, text = 'зделол')
-                return 'OK'
 
             if update.message.text.split()[0] == '/makemoder':
                 user_name = update.message.text.split()[1]
-                user_type = users.get_utype_by_id(update.message.from_user.id)
-                if not (user_type == 'O' or update.message.from_user.id == PAPAID):
+                if not (users.user_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
-                if not users.check_user_by_name(user_name):
+                if users.change_utype(user_name, 'M'):
+                    bot.sendMessage(chat_id=update.message.chat_id, text='зделол')
+                    return 'OK'
+                else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
-                users.change_utype(user_name, 'M')
-                bot.sendMessage(chat_id = update.message.chat_id, text = 'зделол')
-                return 'OK'
+
 
             if update.message.text.split()[0] == '/makeuser':
                 user_name = update.message.text.split()[1]
-                user_type = users.get_utype_by_id(update.message.from_user.id)
-                if not (user_type == 'O' or update.message.from_user.id == PAPAID):
+                if not (users.user_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
-                if not users.check_user_by_name(user_name):
+                if users.find_user('uname', user_name) == None:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
                 users.change_utype(user_name, 'U')
@@ -126,8 +123,8 @@ def botHook():
 
         if update.message.text == '/add':
             command_message = update.message
-            user_type = users.get_utype_by_id(update.message.from_user.id)
-            if not (user_type == 'O' or user_type == 'M'):
+            u = users.find_user('uid', update.message.from_user.id)
+            if u == None or not (u['utype'] == 'O' or u['utype'] == 'M'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                 return 'Access denied'
             bot.sendMessage(chat_id = update.message.chat_id, text = 'Пезди давай. Но токо больше 10 букв и ченть новенькое')
@@ -136,8 +133,8 @@ def botHook():
 
         if update.message.text == '/del':
             command_message = update.message
-            user_type = users.get_utype_by_id(update.message.from_user.id)
-            if not (user_type == 'O' or user_type == 'M'):
+            u = users.find_user('uid', update.message.from_user.id)
+            if u == None or not (u['utype'] == 'O' or u['utype'] == 'M'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                 return 'Access denied'
             if tsr.last_message[0] == -1:
@@ -214,7 +211,7 @@ def log():
 @route('/locs')
 #@route('/locs/<name>')
 def locs(name='World'):
-    return template(os.path.join(this_path, 'locs.tpl'), name=name)
+    return template(os.path.join(this_path, '-locs', 'locs.tpl'), name=name)
 
 
 # ========================================== Sarah section ===========================================

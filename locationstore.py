@@ -60,7 +60,7 @@ def init_locz():
     global locz
     global locz_file
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    locz_file = os.path.join(THIS_FOLDER, 'locz.tdb')
+    locz_file = os.path.join(THIS_FOLDER, '-locs', 'locz.tdb')
     lf = open(locz_file, 'r', encoding='utf-8')
     locz = lf.readlines()
     lf.close()
