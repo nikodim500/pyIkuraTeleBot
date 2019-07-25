@@ -46,6 +46,8 @@ def save_userz():
 
 def add_user(uid, uname, utype, ubd, utext):
     global userz
+    if userz == None:
+        userz = []
     if find_user('uid', uid) == None:
         userz.append({'uid':uid, 'uname':uname, 'utype':utype, 'ubd':ubd, 'utext':utext})
         save_userz()
