@@ -114,7 +114,7 @@ def botHook():
                 if not (users.user_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
-                if users.find_user('uname', user_name) == None:
+                if users.find_user('uname', user_name) is None:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
                 users.change_utype(user_name, 'U')
@@ -124,7 +124,7 @@ def botHook():
         if update.message.text == '/add':
             command_message = update.message
             u = users.find_user('uid', update.message.from_user.id)
-            if u == None or not (u['utype'] == 'O' or u['utype'] == 'M'):
+            if u is None or not (u['utype'] == 'O' or u['utype'] == 'M'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                 return 'Access denied'
             bot.sendMessage(chat_id = update.message.chat_id, text = 'Пезди давай. Но токо больше 10 букв и ченть новенькое')
@@ -134,7 +134,7 @@ def botHook():
         if update.message.text == '/del':
             command_message = update.message
             u = users.find_user('uid', update.message.from_user.id)
-            if u == None or not (u['utype'] == 'O' or u['utype'] == 'M'):
+            if u is None or not (u['utype'] == 'O' or u['utype'] == 'M'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                 return 'Access denied'
             if tsr.last_message[0] == -1:

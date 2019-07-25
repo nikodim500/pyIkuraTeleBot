@@ -23,7 +23,7 @@ def load_userz():
         uf = open(userz_file, 'r', encoding='utf-8')
         userz = json.load(uf)
         uf.close()
-        if userz == None:
+        if userz is None:
             add_user(97835760, 'nikodim', 'O', dt.date(1973, 2, 24), 'здраствой, папа')
         else:
             for u in userz:
@@ -46,9 +46,9 @@ def save_userz():
 
 def add_user(uid, uname, utype, ubd, utext):
     global userz
-    if userz == None:
+    if userz is None:
         userz = []
-    if find_user('uid', uid) == None:
+    if find_user('uid', uid) is None:
         userz.append({'uid':uid, 'uname':uname, 'utype':utype, 'ubd':ubd, 'utext':utext})
         save_userz()
 

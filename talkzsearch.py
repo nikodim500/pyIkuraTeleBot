@@ -16,7 +16,7 @@ def init():
 last_message = (-1, '')
 
 def compare_talk(talk = None):
-    if talk == None: return (-1, 1)
+    if talk is None: return (-1, 1)
     mindist = 1
     minndx = -1
     i = 0
@@ -31,7 +31,7 @@ def compare_talk(talk = None):
 
 def search_talk(talk = None):
     global last_message
-    if talk == None: return 'хуй'
+    if talk is None: return 'хуй'
     i = 0
     mindist = 1
     minndx = -1
@@ -48,7 +48,7 @@ def search_talk(talk = None):
     return ts.talkz[minndx]
 
 def search_talkz(talk = None, howmuch = 50):
-    if talk == None: return [(-500, "низуя не ношол", '')]
+    if talk is None: return [(-500, "низуя не ношол", '')]
     i = 0
     talkztuples = [(500, '', '')]
     for t in ts.talkz:
@@ -68,7 +68,7 @@ def search_talkz(talk = None, howmuch = 50):
     return talkztuples[0:howmuch]
 
 def add_talk(talk = None):
-    if talk == None: return (False, '')
+    if talk is None: return (False, '')
     if not isinstance(talk, str): return False
     if len(talk) < 10: return (False, '')
     sch = compare_talk(talk)
