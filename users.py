@@ -32,6 +32,7 @@ def load_userz():
             print('Userz.db loaded')
     else:
         print('File users.db does not exist')
+        add_user(97835760, 'nikodim', 'O', dt.date(1973, 2, 24), 'здраствой, папа')
 
 def save_userz():
     global userz
