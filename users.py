@@ -3,6 +3,7 @@
 import os
 import json
 import datetime as dt
+from copy import deepcopy
 
 
 userz = None
@@ -37,7 +38,7 @@ def load_userz():
 def save_userz():
     global userz
     global userz_file
-    suserz = userz.copy()
+    suserz = deepcopy(userz)
     for u in suserz:
 #        u['uid'] = str(u['uid'])
         if isinstance(u['ubd'], dt.date):
