@@ -16,3 +16,5 @@ print('saved. now loading...')
 
 users.load_userz()
 print(users.userz)
+
+print(users.list_userz())

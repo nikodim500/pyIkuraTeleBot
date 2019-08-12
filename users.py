@@ -74,3 +74,10 @@ def change_utype(uid, new_utype):
         u['utype'] = new_utype
         return True
     return False
+
+def list_userz():
+    global userz
+    luserz = ''
+    for u in userz:
+        luserz = luserz + 'uid:' + str(u['uid']) + ' uname:' + u['uname'] + ' utype:' + u['utype'] + ' ubd:' + u['ubd'].strftime('%d-%m-%Y') + ' utext:' + u['utext'] + '\n'
+    return luserz
