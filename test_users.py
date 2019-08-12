@@ -4,7 +4,7 @@
 import users
 import datetime as dt
 
-users.init_userz()
+users.init()
 
 print('users initiated. saving...')
 

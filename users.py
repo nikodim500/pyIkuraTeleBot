@@ -20,15 +20,15 @@ def load_userz():
     global userz
     global userz_file
     if os.path.exists(userz_file):
-        uf = open(userz_file, 'r', encoding='utf-8')
-        userz = json.load(uf)
-        uf.close()
-        if userz is None:
+        with open(userz_file, 'r', encoding='utf-8') as uf:
+            luserz = json.load(uf)
+        if luserz is None:
             add_user(97835760, 'nikodim', 'O', dt.date(1973, 2, 24), 'здраствой, папа')
         else:
-            for u in userz:
+            for u in luserz:
 #                u['uid'] = int(u['uid'])
                 u['ubd'] = dt.datetime.strptime(u['ubd'], '%d-%m-%Y')
+            userz = luserz.copy()
             print('Userz.db loaded')
     else:
         print('File users.db does not exist')
@@ -37,12 +37,13 @@ def load_userz():
 def save_userz():
     global userz
     global userz_file
-    for u in userz:
+    suserz = userz.copy()
+    for u in suserz:
 #        u['uid'] = str(u['uid'])
-        u['ubd'] = u['ubd'].strftime('%d-%m-%Y')
-    uf = open(userz_file, 'w')
-    json.dump(userz, uf)
-    uf.close()
+        if isinstance(u['ubd'], dt.date):
+            u['ubd'] = u['ubd'].strftime('%d-%m-%Y')
+    with open(userz_file, 'w') as uf:
+        json.dump(suserz, uf)
     print('Userz.db saved')
 
 def add_user(uid, uname, utype, ubd, utext):
