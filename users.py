@@ -80,5 +80,5 @@ def list_userz():
     global userz
     luserz = ''
     for u in userz:
-        luserz = luserz + 'uid:' + str(u['uid']) + ' uname:' + u['uname'] + ' utype:' + u['utype'] + ' ubd:' + u['ubd'].strftime('%d-%m-%Y') + ' utext:' + u['utext'] + '\n'
+        luserz = luserz + str(u['uid']) + ' ' + u['uname'] + ' ' + u['utype'] + ' ' + u['ubd'].strftime('%d-%m-%Y') + ' ' + u['utext'] + '\n'
     return luserz
