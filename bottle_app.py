@@ -67,7 +67,7 @@ def botHook():
 #        global tstconf
 #        logger.info('message: ' + update.message.text)
 
-        if users.add_user(update.message.from_user.id, update.message.from_user.username, 'U', dt.date(1901,1,1), 'Added automatically at ' + dt.datetime.now().isoformat()):
+        if users.add_user(update.message.from_user.id, update.message.from_user.username, 'U', dt.date(1901,1,1), 'Added ' + dt.datetime.now().isoformat()):
             bot.sendMessage(chat_id = PAPAID, text = 'добавил копа. ' + update.message.from_user.username + ' (' + str(update.message.from_user.id) + ')')
 
         if update.message.location is not None:
@@ -77,49 +77,68 @@ def botHook():
 
         if update.message.text == '/listusers':
             command_message = update.message
-            if not users.user_is(update.message.from_user.id, 'O'):
+            if not users.usertype_is(update.message.from_user.id, 'O'):
                 bot.sendMessage(chat_id = update.message.chat_id, text = 'Иди нухай, коп')
                 return 'Access denied'
             bot.sendMessage(chat_id = update.message.chat_id, text = users.list_userz())
             return 'OK'
 
         if isinstance(update.message.text, str):
-            if update.message.text.split()[0] == '/makeowner':
-                user_name = update.message.text.split()[1]
+            mtext = update.message.text
+            command = mtext.split()[0]
+            user_name = mtext.split()[1]
+            if command == '/makeowner':
                 if not (update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп. ты непапа')
                     return 'Access denied'
-                if users.change_utype(user_name, 'O'):
-                    bot.sendMessage(chat_id=update.message.chat_id, text='зделол')
+                if users.change_attr(user_name, 'utype', 'O'):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=users.str_user(users.find_user('uname', user_name)))
                     return 'OK'
                 else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
 
-            if update.message.text.split()[0] == '/makemoder':
-                user_name = update.message.text.split()[1]
-                if not (users.user_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
+            if command == '/makemoder':
+                user_name = mtext.split()[1]
+                if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
-                if users.change_utype(user_name, 'M'):
-                    bot.sendMessage(chat_id=update.message.chat_id, text='зделол')
+                if users.change_attr(user_name, 'utype', 'M'):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=users.str_user(users.find_user('uname', user_name)))
                     return 'OK'
                 else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
 
 
-            if update.message.text.split()[0] == '/makeuser':
-                user_name = update.message.text.split()[1]
-                if not (users.user_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
+            if command == '/makeuser':
+                user_name = mtext.split()[1]
+                if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
+                    bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
+                    return 'Access denied'
+                if users.change_attr(user_name, 'utype', 'U'):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=users.str_user(users.find_user('uname', user_name)))
+                    return 'OK'
+                else:
+                    bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
+                    return 'Not found'
+
+            if command == '/set':
+                user_name = mtext.split()[1]
+                user_attr = mtext.split()[2]
+                user_value = mtext[len(mtext.split()[0]) + len(mtext.split()[1]) + len(mtext.split()[2]) + 3:]
+                if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
                 if users.find_user('uname', user_name) is None:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
                     return 'Not found'
-                users.change_utype(user_name, 'U')
-                bot.sendMessage(chat_id = update.message.chat_id, text = 'зделол')
-                return 'OK'
+                if users.change_attr(user_name, user_attr, user_value):
+                    bot.sendMessage(chat_id=update.message.chat_id, text=users.str_user(users.find_user('uname', user_name)))
+                    return 'OK'
+                else:
+                    bot.sendMessage(chat_id=update.message.chat_id, text='хуйню сказал, папаша')
+                    return 'Error'
 
         if update.message.text == '/add':
             command_message = update.message

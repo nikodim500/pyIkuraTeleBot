@@ -64,17 +64,23 @@ def find_user(key, value):
             return {'uid':u['uid'], 'uname':u['uname'], 'utype':u['utype'], 'ubd':u['ubd'], 'utext':u['utext']}
     return None
 
-def user_is(uid, utype):
+def str_user(u):
+    if u == None:
+        return ''
+    else:
+        return str(u['uid']) + ' ' + u['uname'] + ' ' + u['utype'] + ' ' + u['ubd'].strftime('%d-%m-%Y') + ' ' + u['utext']
+
+def usertype_is(uid, utype):
     u = find_user('uid', uid)
     if u != None:
         if u['utype'] == utype:
             return True
     return False
 
-def change_utype(uid, new_utype):
-    u = find_user('uid', uid)
+def change_attr(uname, uattr, value):
+    u = find_user('uname', uname)
     if u != None:
-        u['utype'] = new_utype
+        u[uattr] = value
         return True
     return False
 
@@ -82,5 +88,5 @@ def list_userz():
     global userz
     luserz = ''
     for u in userz:
-        luserz = luserz + str(u['uid']) + ' ' + u['uname'] + ' ' + u['utype'] + ' ' + u['ubd'].strftime('%d-%m-%Y') + ' ' + u['utext'] + '\n'
+        luserz = luserz + str_user(u) + '\n'
     return luserz
