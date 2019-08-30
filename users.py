@@ -81,7 +81,21 @@ def usertype_is(uid, utype):
 def change_attr(uname, uattr, value):
     u = find_user('uname', uname)
     if u != None:
-        u[uattr] = value
+        if uattr == 'uid':
+            try:
+                u[uattr] = int(value)
+            except:
+                return False
+        if uattr == 'ubd':
+            try:
+                u[uattr] = dt.datetime.strptime(value, '%d-%m-%Y')
+            except:
+                return False
+        try:
+            u[uattr] = value
+        except:
+            return False
+        save_userz()
         return True
     return False
 
