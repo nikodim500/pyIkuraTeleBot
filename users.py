@@ -61,7 +61,8 @@ def find_user(key, value):
     global userz
     for u in userz:
         if u[key] == value:
-            return {'uid':u['uid'], 'uname':u['uname'], 'utype':u['utype'], 'ubd':u['ubd'], 'utext':u['utext']}
+            return u
+#            return {'uid':u['uid'], 'uname':u['uname'], 'utype':u['utype'], 'ubd':u['ubd'], 'utext':u['utext']}
     return None
 
 def str_user(u):
