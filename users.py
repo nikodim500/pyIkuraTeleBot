@@ -92,10 +92,11 @@ def change_attr(uname, uattr, value):
                 u[uattr] = dt.datetime.strptime(value, '%d-%m-%Y')
             except:
                 return False
-        try:
-            u[uattr] = value
-        except:
-            return False
+        else:
+            try:
+                u[uattr] = value
+            except:
+                return False
         save_userz()
         return True
     return False
