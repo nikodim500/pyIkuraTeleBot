@@ -67,7 +67,7 @@ def botHook():
 #        global tstconf
 #        logger.info('message: ' + update.message.text)
 
-        if users.add_user(update.message.from_user.id, update.message.from_user.username, 'U', dt.date(1,1,1), 'Added automatically at ' + dt.datetime.now().isoformat()):
+        if users.add_user(update.message.from_user.id, update.message.from_user.username, 'U', dt.date(1,1,1901), 'Added automatically at ' + dt.datetime.now().isoformat()):
             bot.sendMessage(chat_id = PAPAID, text = 'добавил копа. ' + update.message.from_user.username + ' (' + str(update.message.from_user.id) + ')')
 
         if update.message.location is not None:
