@@ -79,13 +79,14 @@ def usertype_is(uid, utype):
     return False
 
 def change_attr(uname, uattr, value):
+    if not uattr in ['uname', 'utype', 'ubd', 'utext']:
+        return False
+    if uattr == 'utype' and not value in ['U', 'M', 'O']:
+        return False
     u = find_user('uname', uname)
     if u != None:
         if uattr == 'uid':
-            try:
-                u[uattr] = int(value)
-            except:
-                return False
+            return False
         if uattr == 'ubd':
             try:
                 u[uattr] = dt.datetime.strptime(value, '%d-%m-%Y')
