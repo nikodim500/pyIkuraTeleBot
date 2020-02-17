@@ -46,9 +46,9 @@ def to_stat(stat):
 @route('/m2p', method = ['POST', 'GET'])
 def m2p():
     bot = telegram.Bot(sarahTOKEN)
-    body = request.body.read()
-    print(body)
-    postdata = json.loads(body)
+    b = request.body.read()
+    print(b)
+    postdata = json.loads(b)
     sarah_logger.info('M2P. %s', postdata);
     if postdata['typ'] == 'STAT':
         to_stat(postdata['src'] + ' ' + postdata['msg'])
