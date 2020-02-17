@@ -50,7 +50,7 @@ def m2p():
     postdata = postdata.decode('utf-8')
     print('decoded b:')
     print(postdata)
-    postdata = json.loads(b)
+    postdata = json.loads(postdata)
     sarah_logger.info('M2P. %s', postdata);
     if postdata['typ'] == 'STAT':
         to_stat(postdata['src'] + ' ' + postdata['msg'])
