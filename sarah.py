@@ -48,10 +48,7 @@ def m2p():
     bot = telegram.Bot(sarahTOKEN)
     body = request.body.read()
     print(body)
-    try:
-        postdata = json.loads(body.decode('utf-8'))
-    except UnicodeDecodeError:
-        postdata = json.loads(request.body.read())
+    postdata = json.loads(body)
     sarah_logger.info('M2P. %s', postdata);
     if postdata['typ'] == 'STAT':
         to_stat(postdata['src'] + ' ' + postdata['msg'])
