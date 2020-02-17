@@ -46,7 +46,9 @@ def to_stat(stat):
 @route('/m2p', method = ['POST', 'GET'])
 def m2p():
     b = request.body.read()
-    print(b)
+    print('b: ' + b)
+    b = b.decode('utf-8')
+    print('decoded b:' + b)
     postdata = json.loads(b)
     sarah_logger.info('M2P. %s', postdata);
     if postdata['typ'] == 'STAT':
