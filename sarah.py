@@ -43,12 +43,13 @@ def to_stat(stat):
     except Exception:
         sarah_logger.info("Save to stat file error: %s", sys.exc_info()[0]);
 
-@route('/m2p', method='POST')
+@route('/m2p', method = ['POST', 'GET'])
 def m2p():
     bot = telegram.Bot(sarahTOKEN)
-    print(request.body.read())
+    body = request.body.read()
+    print(body)
     try:
-        postdata = json.loads(request.body.read().decode('utf-8'))
+        postdata = json.loads(body.decode('utf-8'))
     except UnicodeDecodeError:
         postdata = json.loads(request.body.read())
     sarah_logger.info('M2P. %s', postdata);
