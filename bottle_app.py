@@ -229,7 +229,7 @@ def home():
 
 @route('/log')
 def log():
-    return static_file(log_file, root = this_path)
+    return static_file(log_file)
 
 @route('/locs')
 #@route('/locs/<name>')
