@@ -91,7 +91,9 @@ def botHook():
         if isinstance(update.message.text, str):
             mtext = update.message.text
             command = mtext.split()[0]
-            user_name = mtext.split()[1]
+            user_name = ""
+            if len(mtext.split()) > 1:
+                user_name = mtext.split()[1]
             if command == '/makeowner':
                 if not (update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп. ты непапа')
@@ -101,10 +103,9 @@ def botHook():
                     return 'OK'
                 else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
-                    return 'Not found'
+                    return 'OK'
 
             if command == '/makemoder':
-                user_name = mtext.split()[1]
                 if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
@@ -113,11 +114,10 @@ def botHook():
                     return 'OK'
                 else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
-                    return 'Not found'
+                    return 'OK'
 
 
             if command == '/makeuser':
-                user_name = mtext.split()[1]
                 if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'иди нухай, коп')
                     return 'Access denied'
@@ -126,10 +126,9 @@ def botHook():
                     return 'OK'
                 else:
                     bot.sendMessage(chat_id = update.message.chat_id, text = 'нету такого копа')
-                    return 'Not found'
+                    return 'OK'
 
             if command == '/set':
-                user_name = mtext.split()[1]
                 user_attr = mtext.split()[2]
                 user_value = mtext[len(mtext.split()[0]) + len(mtext.split()[1]) + len(mtext.split()[2]) + 3:]
                 if not (users.usertype_is(update.message.from_user.id, 'O') or update.message.from_user.id == PAPAID):
