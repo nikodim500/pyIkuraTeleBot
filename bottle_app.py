@@ -10,6 +10,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineKe
 import datetime as dt
 from uuid import uuid4
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import sarah
 
@@ -26,10 +27,14 @@ this_path = os.path.dirname(os.path.abspath(__file__))
 log_file = os.path.join(this_path, '-logs', __name__ + '.log')
 
 # Enable logging
-logging.basicConfig(filename = log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.DEBUG)
-
+#logging.basicConfig(filename = log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#                    level=logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler = RotatingFileHandler(log_file, maxBytes=4194304, backupCount=3)
+handler.setFormatter(formatter)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(handler)
 
 tsr.init()
 users.init()

@@ -1,4 +1,5 @@
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import sys
 from bottle import route, request
@@ -12,7 +13,7 @@ sarahTOKEN = '276390507:AAHBg2AmrnJXLtCXoDYW6ipo1ufjaKJAG0c'
 this_path = os.path.dirname(os.path.abspath(__file__))
 sarah_log_file = os.path.join(this_path, '-sarah', 'sarah.log')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler = logging.FileHandler(sarah_log_file)
+handler = RotatingFileHandler(sarah_log_file, maxBytes=4194304, backupCount=3)
 handler.setFormatter(formatter)
 sarah_logger = logging.getLogger('Sarah')
 sarah_logger.setLevel(logging.DEBUG)
@@ -43,7 +44,7 @@ def to_stat(stat):
     except Exception:
         sarah_logger.info("Save to stat file error: %s", sys.exc_info()[0]);
 
-@route('/m2p', method = ['POST', 'GET'])
+@route('/m2p', method = ['POST', 'GET'])   # {"typ": "INFO","src": "Gates","msg": "Openning..."}
 def m2p():
     postdata = request.body.read()
     postdata = postdata.decode('utf-8')
